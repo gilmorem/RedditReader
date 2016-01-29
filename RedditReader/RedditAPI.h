@@ -11,6 +11,7 @@
 @interface RedditAPI : NSObject
 
 + (instancetype)sharedAPI;
+
 -(void)getPostsForSubReddit: (NSString *)subReddit completion:(void(^)(NSArray *posts, NSError *error))completion;
 
 @end

@@ -8,6 +8,8 @@
 
 #import "PostsTableViewController.h"
 #import "RedditAPI.h"
+#import "PostsTableViewCell.h"
+#import "RedditPost.h"
 
 @interface PostsTableViewController ()
 @property (nonatomic) NSArray * posts;
@@ -49,15 +51,33 @@
     
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:; forIndexPath:indexPath];
     
-    // Configure the cell...
+    PostsTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    RedditPost *post = [[RedditPost alloc] initWithDictionary:[self.posts objectAtIndex:indexPath.row]];
+   
+    cell.title.text = post.title;
+    NSURL *imageURL = [NSURL URLWithString:post.thumbnailURL];
+    NSError *error = nil;
+    NSData *imageData = [NSData dataWithContentsOfURL:imageURL options:NSDataReadingUncached error:&error];
+    UIImage *image = [UIImage imageWithData:imageData];
+    
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    } else {
+        NSLog(@"Data has loaded successfully.");
+    }
+    cell.thumbnailImageView.image = image;
+    
+
+    
+    if (!cell.thumbnailImageView.image) {
+        cell.thumbnailImageView.image = [UIImage imageNamed:@"alien.png"];
+    }
     
     return cell;
 }
-*/
 
 /*
 // Override to support conditional editing of the table view.

@@ -10,6 +10,8 @@
 		3ECB834F98FCA58CD709B0D1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27EBAD6B7654B49E1F45766E /* libPods.a */; };
 		8E08D65B1C5BE37C0013C1E5 /* RedditAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E08D65A1C5BE37C0013C1E5 /* RedditAPI.m */; };
 		8E08D65E1C5BED140013C1E5 /* PostsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E08D65D1C5BED140013C1E5 /* PostsTableViewController.m */; };
+		8E08D6611C5BF47A0013C1E5 /* PostsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E08D6601C5BF47A0013C1E5 /* PostsTableViewCell.m */; };
+		8E08D6641C5BF6880013C1E5 /* RedditPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E08D6631C5BF6880013C1E5 /* RedditPost.m */; };
 		8EA3697E1C595DAB005B9862 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA3697D1C595DAB005B9862 /* main.m */; };
 		8EA369811C595DAB005B9862 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA369801C595DAB005B9862 /* AppDelegate.m */; };
 		8EA369841C595DAB005B9862 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA369831C595DAB005B9862 /* ViewController.m */; };
@@ -45,6 +47,10 @@
 		8E08D65A1C5BE37C0013C1E5 /* RedditAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditAPI.m; sourceTree = "<group>"; };
 		8E08D65C1C5BED140013C1E5 /* PostsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostsTableViewController.h; sourceTree = "<group>"; };
 		8E08D65D1C5BED140013C1E5 /* PostsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostsTableViewController.m; sourceTree = "<group>"; };
+		8E08D65F1C5BF47A0013C1E5 /* PostsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostsTableViewCell.h; sourceTree = "<group>"; };
+		8E08D6601C5BF47A0013C1E5 /* PostsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostsTableViewCell.m; sourceTree = "<group>"; };
+		8E08D6621C5BF6880013C1E5 /* RedditPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedditPost.h; sourceTree = "<group>"; };
+		8E08D6631C5BF6880013C1E5 /* RedditPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditPost.m; sourceTree = "<group>"; };
 		8EA369791C595DAB005B9862 /* RedditReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RedditReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EA3697D1C595DAB005B9862 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8EA3697F1C595DAB005B9862 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -144,6 +150,10 @@
 				8E08D65A1C5BE37C0013C1E5 /* RedditAPI.m */,
 				8E08D65C1C5BED140013C1E5 /* PostsTableViewController.h */,
 				8E08D65D1C5BED140013C1E5 /* PostsTableViewController.m */,
+				8E08D65F1C5BF47A0013C1E5 /* PostsTableViewCell.h */,
+				8E08D6601C5BF47A0013C1E5 /* PostsTableViewCell.m */,
+				8E08D6621C5BF6880013C1E5 /* RedditPost.h */,
+				8E08D6631C5BF6880013C1E5 /* RedditPost.m */,
 			);
 			path = RedditReader;
 			sourceTree = "<group>";
@@ -357,7 +367,9 @@
 			files = (
 				8E08D65B1C5BE37C0013C1E5 /* RedditAPI.m in Sources */,
 				8EA369841C595DAB005B9862 /* ViewController.m in Sources */,
+				8E08D6641C5BF6880013C1E5 /* RedditPost.m in Sources */,
 				8EA369811C595DAB005B9862 /* AppDelegate.m in Sources */,
+				8E08D6611C5BF47A0013C1E5 /* PostsTableViewCell.m in Sources */,
 				8EA3697E1C595DAB005B9862 /* main.m in Sources */,
 				8E08D65E1C5BED140013C1E5 /* PostsTableViewController.m in Sources */,
 			);
