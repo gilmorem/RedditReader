@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface PostsTableViewController : UITableViewController
-
+@property (nonatomic) NSString *selectedSubreddit;
 @end

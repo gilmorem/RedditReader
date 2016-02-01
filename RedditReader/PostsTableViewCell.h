@@ -12,6 +12,9 @@
 
 @property (nonatomic) IBOutlet UILabel *title;
 @property (strong, nonatomic) IBOutlet UIImageView *thumbnailImageView;
+@property (strong, nonatomic) IBOutlet UILabel *score;
+@property (strong, nonatomic) IBOutlet UIButton *numComments;
+@property (strong, nonatomic) IBOutlet UILabel *subreddit;
 
 
 @end

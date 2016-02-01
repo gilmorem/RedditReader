@@ -18,6 +18,8 @@
 @property (nonatomic) NSNumber *score;
 @property (nonatomic) NSNumber *numberOfComments;
 @property (nonatomic) NSString *thumbnailURL;
+@property (nonatomic) NSString *createdAtUTC;
+
 
 -(instancetype)initWithDictionary: (NSDictionary *)thePost;
 @end

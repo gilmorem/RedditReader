@@ -14,6 +14,7 @@
 @interface PostsTableViewController ()
 @property (nonatomic) NSArray * posts;
 
+
 @end
 
 @implementation PostsTableViewController
@@ -21,7 +22,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[RedditAPI sharedAPI] getPostsForSubReddit:@"iOSProgramming" completion:^(NSArray *posts, NSError *error) {
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.title = self.selectedSubreddit;
+    
+    [[RedditAPI sharedAPI] getPostsForSubReddit:self.selectedSubreddit completion:^(NSArray *posts, NSError *error) {
         self.posts = posts;
         [self.tableView reloadData];
     }];
@@ -58,13 +62,17 @@
     RedditPost *post = [[RedditPost alloc] initWithDictionary:[self.posts objectAtIndex:indexPath.row]];
    
     cell.title.text = post.title;
+    cell.subreddit.text = [NSString stringWithFormat:@"%@ • %@", post.subreddit, post.author];
+    [cell.numComments setTitle:[NSString stringWithFormat:@"%@", post.numberOfComments] forState:UIControlStateNormal];
+    NSString * epochDate = post.createdAtUTC;
+    cell.score.text = [NSString stringWithFormat:@"%@ ⚬ %@", post.score, [self timeAgo:epochDate]];
     NSURL *imageURL = [NSURL URLWithString:post.thumbnailURL];
     NSError *error = nil;
     NSData *imageData = [NSData dataWithContentsOfURL:imageURL options:NSDataReadingUncached error:&error];
     UIImage *image = [UIImage imageWithData:imageData];
     
     if (error) {
-        NSLog(@"%@", [error localizedDescription]);
+       NSLog(@"%@", [error localizedDescription]);
     } else {
         NSLog(@"Data has loaded successfully.");
     }
@@ -78,6 +86,65 @@
     
     return cell;
 }
+
+static int const MINUTE = 60;
+static int const HOUR = (MINUTE * 60);
+static int const DAY = (HOUR * 24);
+static int const WEEK = (DAY * 7);
+static int const MONTH = (DAY * 31);
+static int const YEAR = (DAY * 365);
+
+- (NSString*)timeAgo: (NSString *)epochTime {
+    
+    NSTimeInterval seconds = [epochTime doubleValue];
+    NSDate *epochNSDate = [[NSDate alloc] initWithTimeIntervalSince1970:seconds];
+    
+    NSDate *now = [NSDate date];
+    NSInteger secondsSinceNow = (NSInteger)[now timeIntervalSinceDate:epochNSDate];
+    
+    
+    NSInteger prefix = 0;
+    NSString *suffix = nil;
+    
+    // Seconds
+    if (secondsSinceNow < MINUTE) {
+        prefix = secondsSinceNow;
+        suffix = @"s";
+    }
+    // Minute
+    else if (secondsSinceNow < HOUR) {
+        prefix = secondsSinceNow / MINUTE;
+        suffix = @"m";
+    }
+    // Hour
+    else if (secondsSinceNow < DAY) {
+        prefix = secondsSinceNow / HOUR;
+        suffix = @"h";
+    }
+    // Day
+    else if (secondsSinceNow < WEEK) {
+        prefix = secondsSinceNow / DAY;
+        suffix = @"d";
+    }
+    // Week
+    else if (secondsSinceNow < MONTH) {
+        prefix = secondsSinceNow / WEEK;
+        suffix = @"w";
+    }
+    // Month
+    else if (secondsSinceNow < YEAR) {
+        prefix = secondsSinceNow / MONTH;
+        suffix = @"mo";
+    }
+    // Year
+    else {
+        prefix = secondsSinceNow / YEAR;
+        suffix = @"y";
+    }
+    
+    return [NSString stringWithFormat:@"%ld%@", (long)prefix, suffix];
+}
+
 
 /*
 // Override to support conditional editing of the table view.
