@@ -27,6 +27,8 @@
     self.numberOfComments = [self.thePost objectForKey:@"num_comments"];
     self.thumbnailURL = [self.thePost objectForKey:@"thumbnail"];
     self.createdAtUTC = [self.thePost objectForKey:@"created_utc"];
+    self.URL = [self.thePost objectForKey:@"url"];
+    self.permalink = [self.thePost objectForKey:@"permalink"];
     
     return self;
 }

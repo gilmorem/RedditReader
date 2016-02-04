@@ -10,9 +10,11 @@
 #import "RedditAPI.h"
 #import "PostsTableViewCell.h"
 #import "RedditPost.h"
+#import "PostDetailViewController.h"
 
-@interface PostsTableViewController ()
+@interface PostsTableViewController () <PostsTableViewCellDelegate>
 @property (nonatomic) NSArray * posts;
+@property (nonatomic) NSString *selectedURL;
 
 
 @end
@@ -60,7 +62,9 @@
     
     PostsTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     RedditPost *post = [[RedditPost alloc] initWithDictionary:[self.posts objectAtIndex:indexPath.row]];
-   
+    
+    cell.delegate = self;
+    cell.thePost = post;
     cell.title.text = post.title;
     cell.subreddit.text = [NSString stringWithFormat:@"%@ • %@", post.subreddit, post.author];
     [cell.numComments setTitle:[NSString stringWithFormat:@"%@", post.numberOfComments] forState:UIControlStateNormal];
@@ -146,48 +150,37 @@ static int const YEAR = (DAY * 365);
 }
 
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    RedditPost *post = [[RedditPost alloc] initWithDictionary:[self.posts objectAtIndex:indexPath.row]];
+    
+    self.selectedURL = post.URL;
+    [self performSegueWithIdentifier:@"post" sender:self];
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+-(void)didTapCommentsButtonOnCell:(PostsTableViewCell *)cell{
+    RedditPost *post = [[RedditPost alloc] initWithDictionary:cell.thePost.thePost];
+    
+    self.selectedURL = post.permalink;
+    
+    [self performSegueWithIdentifier:@"comments" sender:self];
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    if ([[segue identifier] isEqualToString:@"post"])
+    {
+        PostDetailViewController *vc = (PostDetailViewController*)[segue destinationViewController];
+        vc.selectedURL = self.selectedURL;
+    }
+    else if([[segue identifier] isEqualToString:@"comments"]){
+        PostDetailViewController *vc = (PostDetailViewController*)[segue destinationViewController];
+        vc.selectedURL = self.selectedURL;
+        
+    }
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

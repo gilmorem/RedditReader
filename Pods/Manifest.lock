@@ -20,11 +20,14 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - SpinKit (1.2.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.5)
+  - SpinKit (~> 1.1)
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
 
 COCOAPODS: 0.39.0

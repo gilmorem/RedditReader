@@ -19,6 +19,8 @@
 @property (nonatomic) NSNumber *numberOfComments;
 @property (nonatomic) NSString *thumbnailURL;
 @property (nonatomic) NSString *createdAtUTC;
+@property (nonatomic) NSString *URL;
+@property (nonatomic) NSString *permalink;
 
 
 -(instancetype)initWithDictionary: (NSDictionary *)thePost;
