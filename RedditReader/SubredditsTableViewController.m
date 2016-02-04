@@ -11,8 +11,9 @@
 #import "PostsTableViewController.h"
 
 @interface SubredditsTableViewController ()
-@property (nonatomic) NSArray *subredditsArray;
+@property (nonatomic) NSMutableArray *subredditsArray;
 @property (nonatomic) NSString *selectedSubreddit;
+@property (nonatomic) NSString *subredditToAdd;
 @end
 
 @implementation SubredditsTableViewController
@@ -20,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.subredditsArray = [[NSArray alloc] initWithObjects:@"iOSProgramming", @"Xboxone", nil];
+    self.subredditsArray = [[NSMutableArray alloc] initWithObjects:@"iOSProgramming", @"Xboxone", nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,6 +48,36 @@
     cell.subreddit.text = [self.subredditsArray objectAtIndex:indexPath.row];
     
     return cell;
+}
+
+- (IBAction)addSubreddit:(id)sender {
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"Add Subreddit" message:@"Please enter a subreddit" preferredStyle:UIAlertControllerStyleAlert];
+    __weak UIAlertController *alertRef = alertView;
+    UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              self.subredditToAdd = ((UITextField *)[alertRef.textFields objectAtIndex:0]).text;
+                                                              [self.tableView beginUpdates];
+                                                              [self.subredditsArray addObject:self.subredditToAdd];
+                                                              NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:[self.subredditsArray count]-1 inSection:0]];
+                                                              [[self tableView] insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
+                                                              [self.tableView endUpdates];
+                                                          }];
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * action) {
+                                                       
+                                                     }];
+    
+    [alertView addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = NSLocalizedString(@"iOSProgramming", @"iOSProgramming");
+    }];
+    
+    [alertView addAction:defaultAction];
+    [alertView addAction:okAction];
+    [self presentViewController:alertView animated:YES completion:nil];
+}
+
+- (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler{
+    
 }
 
 - (void)tableView:(UITableView *)tableView

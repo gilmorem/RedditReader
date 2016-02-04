@@ -16,7 +16,6 @@
 @property (nonatomic) NSArray * posts;
 @property (nonatomic) NSString *selectedURL;
 
-
 @end
 
 @implementation PostsTableViewController
@@ -154,17 +153,21 @@ static int const YEAR = (DAY * 365);
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     RedditPost *post = [[RedditPost alloc] initWithDictionary:[self.posts objectAtIndex:indexPath.row]];
+    if([post.URL isEqualToString:[NSString stringWithFormat:@"https://www.reddit.com%@", post.permalink]]){
+        self.selectedURL = [NSString stringWithFormat:@"https://www.reddit.com%@.compact", post.permalink];
+    }else{
+        self.selectedURL = post.URL;
+    }
     
-    self.selectedURL = post.URL;
     [self performSegueWithIdentifier:@"post" sender:self];
 }
 
 -(void)didTapCommentsButtonOnCell:(PostsTableViewCell *)cell{
+    
     RedditPost *post = [[RedditPost alloc] initWithDictionary:cell.thePost.thePost];
-    
-    self.selectedURL = post.permalink;
-    
+    self.selectedURL = [NSString stringWithFormat:@"https://www.reddit.com%@.compact", post.permalink];
     [self performSegueWithIdentifier:@"comments" sender:self];
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

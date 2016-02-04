@@ -24,9 +24,9 @@
                      initWithFrame:self.view.frame];
     self.webView.delegate = self;
     
-    self.spinner = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStylePulse];
-    self.spinner.frame = CGRectMake(self.view.frame.size.width/2 - 50, self.view.frame.size.height/2 - self.navigationController.navigationBar.frame.size.height, 100, 100);
-    self.spinner.spinnerSize = 100.0;
+    self.spinner = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleFadingCircleAlt];
+    self.spinner.frame = CGRectMake(self.view.frame.size.width/2 - 25, self.view.frame.size.height/2 - self.navigationController.navigationBar.frame.size.height, 50, 50);
+    self.spinner.spinnerSize = 50.0;
     self.spinner.color = [UIColor blackColor];
     [self.spinner sizeToFit];
     
@@ -42,6 +42,10 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     [self.spinner removeFromSuperview];
+}
+
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    
 }
 
 - (void)didReceiveMemoryWarning {
