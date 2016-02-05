@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SubredditsTableViewController : UITableViewController
-
+@property (nonatomic) NSArray * history;
 @end

@@ -15,6 +15,7 @@
 @interface PostsTableViewController () <PostsTableViewCellDelegate>
 @property (nonatomic) NSArray * posts;
 @property (nonatomic) NSString *selectedURL;
+@property (nonatomic) NSMutableArray *history;
 
 @end
 
@@ -25,12 +26,18 @@
     
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.title = self.selectedSubreddit;
+    self.history = [[NSMutableArray alloc] init];
     
     [[RedditAPI sharedAPI] getPostsForSubReddit:self.selectedSubreddit completion:^(NSArray *posts, NSError *error) {
         self.posts = posts;
         [self.tableView reloadData];
     }];
    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,8 +68,8 @@
     
     PostsTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     RedditPost *post = [[RedditPost alloc] initWithDictionary:[self.posts objectAtIndex:indexPath.row]];
-    
     cell.delegate = self;
+    
     cell.thePost = post;
     cell.title.text = post.title;
     cell.subreddit.text = [NSString stringWithFormat:@"%@ • %@", post.subreddit, post.author];
@@ -75,7 +82,7 @@
     UIImage *image = [UIImage imageWithData:imageData];
     
     if (error) {
-       NSLog(@"%@", [error localizedDescription]);
+       //NSLog(@"%@", [error localizedDescription]);
     } else {
         NSLog(@"Data has loaded successfully.");
     }
@@ -85,6 +92,14 @@
     
     if (!cell.thumbnailImageView.image) {
         cell.thumbnailImageView.image = [UIImage imageNamed:@"alien.png"];
+    }
+    NSString * pLink = [NSString stringWithFormat:@"https://www.reddit.com%@.compact", post.permalink];
+    if ([self.history containsObject:post.URL] || [self.history containsObject:pLink]) {
+        cell.title.textColor = [UIColor lightGrayColor];
+        cell.subreddit.textColor = [UIColor lightGrayColor];
+        cell.score.textColor = [UIColor lightGrayColor];
+        
+    
     }
     
     return cell;
@@ -158,7 +173,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     }else{
         self.selectedURL = post.URL;
     }
-    
+    [self.history insertObject:self.selectedURL atIndex:0];
     [self performSegueWithIdentifier:@"post" sender:self];
 }
 
@@ -166,6 +181,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     RedditPost *post = [[RedditPost alloc] initWithDictionary:cell.thePost.thePost];
     self.selectedURL = [NSString stringWithFormat:@"https://www.reddit.com%@.compact", post.permalink];
+    [self.history insertObject:self.selectedURL atIndex:0];
     [self performSegueWithIdentifier:@"comments" sender:self];
     
 }
@@ -177,6 +193,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     {
         PostDetailViewController *vc = (PostDetailViewController*)[segue destinationViewController];
         vc.selectedURL = self.selectedURL;
+        vc.history = self.history;
     }
     else if([[segue identifier] isEqualToString:@"comments"]){
         PostDetailViewController *vc = (PostDetailViewController*)[segue destinationViewController];

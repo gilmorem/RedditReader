@@ -9,8 +9,10 @@
 #import "PostDetailViewController.h"
 #import <SpinKit/RTSpinKitView.h>
 
-@interface PostDetailViewController () <UIWebViewDelegate>
-@property (nonatomic) UIWebView *webView;
+@import WebKit;
+
+@interface PostDetailViewController () <WKNavigationDelegate, WKUIDelegate>
+@property (nonatomic) WKWebView *webView;
 @property (nonatomic) RTSpinKitView *spinner;
 @end
 
@@ -19,19 +21,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-   
-    self.webView = [[UIWebView alloc]
-                     initWithFrame:self.view.frame];
-    self.webView.delegate = self;
+    WKWebViewConfiguration *theConfiguration = [[WKWebViewConfiguration alloc] init];
+    self.webView = [[WKWebView alloc]
+                     initWithFrame:self.view.frame configuration:theConfiguration];
+    self.webView.navigationDelegate = self;
+    self.webView.UIDelegate = self;
     
     self.spinner = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleFadingCircleAlt];
-    self.spinner.frame = CGRectMake(self.view.frame.size.width/2 - 25, self.view.frame.size.height/2 - self.navigationController.navigationBar.frame.size.height, 50, 50);
-    self.spinner.spinnerSize = 50.0;
+    self.spinner.frame = CGRectMake(self.view.frame.size.width/2 - 15, self.view.frame.size.height/2 - self.navigationController.navigationBar.frame.size.height, 30, 30);
+    self.spinner.spinnerSize = 30.0;
     self.spinner.color = [UIColor blackColor];
     [self.spinner sizeToFit];
     
     
     NSURL *url = [[NSURL alloc] initWithString:self.selectedURL];
+    NSLog(@"%@", url);
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     
     [self.webView loadRequest:requestObj];
@@ -40,13 +44,10 @@
     [self.view addSubview:self.spinner];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
+-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation{
     [self.spinner removeFromSuperview];
 }
 
--(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -10,5 +10,5 @@
 
 @interface PostDetailViewController : UIViewController
 @property (nonatomic) NSString * selectedURL;
-
+@property (nonatomic) NSArray * history;
 @end

@@ -44,7 +44,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
      SubredditTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"subredditCell" forIndexPath:indexPath];
-    
+
     cell.subreddit.text = [self.subredditsArray objectAtIndex:indexPath.row];
     
     return cell;
