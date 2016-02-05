@@ -28,9 +28,11 @@
     self.title = self.selectedSubreddit;
     self.history = [[NSMutableArray alloc] init];
     
+    __weak typeof(self)weakSelf = self;
     [[RedditAPI sharedAPI] getPostsForSubReddit:self.selectedSubreddit completion:^(NSArray *posts, NSError *error) {
-        self.posts = posts;
-        [self.tableView reloadData];
+        __typeof__(self) strongSelf = weakSelf;
+        strongSelf.posts = posts;
+        [strongSelf.tableView reloadData];
     }];
    
 }
@@ -82,7 +84,7 @@
     UIImage *image = [UIImage imageWithData:imageData];
     
     if (error) {
-       //NSLog(@"%@", [error localizedDescription]);
+       NSLog(@"%@", [error localizedDescription]);
     } else {
         NSLog(@"Data has loaded successfully.");
     }
